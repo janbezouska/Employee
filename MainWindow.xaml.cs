@@ -99,7 +99,7 @@ namespace Employee
                         tbLog.Text += "Moc malý plat\n";
 
                 }
-                else if (employeesList.Any(x => (x.FirstName == newEmployee.FirstName) && (x.Surname == newEmployee.Surname) && (x.birthyear == newEmployee.birthyear)))
+                else if (employeesList.Any(x => (x.FirstName.ToLower() == newEmployee.FirstName.ToLower()) && (x.Surname.ToLower() == newEmployee.Surname.ToLower()) && (x.birthyear == newEmployee.birthyear)))
                 {
                     tbLog.Foreground = Brushes.Red;
                     tbLog.Text = "už je v listu";
