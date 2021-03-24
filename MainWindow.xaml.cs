@@ -75,9 +75,14 @@ namespace Employee
                 {
                     tbLog.Text = "chyba i guess";
                 }
+                else if(employeesList.Any(x => (x.FirstName == newEmployee.FirstName) && (x.Surname == newEmployee.Surname) && (x.birthyear == newEmployee.birthyear)))
+                {
+                    tbLog.Text = "už je v listu";
+                }
                 else
                 {
                     employeesList.Add(newEmployee);
+                    tbLog.Text = "zaměstnanec přidán";
                 }
             }
             else
@@ -170,7 +175,6 @@ namespace Employee
                 else
                 {
                     wage = value;
-                    MessageBox.Show("zaměstnanec přidán");
                 }
             }
         }
