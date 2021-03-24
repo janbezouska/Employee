@@ -97,7 +97,6 @@ namespace Employee
                         tbLog.Text += "Moc velký plat\n";
                     else if (newEmployee.errWageSmall)
                         tbLog.Text += "Moc malý plat\n";
-
                 }
                 else if (employeesList.Any(x => (x.FirstName.ToLower() == newEmployee.FirstName.ToLower()) && (x.Surname.ToLower() == newEmployee.Surname.ToLower()) && (x.birthyear == newEmployee.birthyear)))
                 {
@@ -129,8 +128,7 @@ namespace Employee
                 for (int i = 0; i < employeesList.Count; i++)
                 {
                     EmployeeClass emp = employeesList[i];
-                    tbLog.Text += $"{i+1}) {emp.FirstName} {emp.Surname}, {emp.birthyear}, {emp.education}, {emp.position}, {emp.Wage}";
-                    tbLog.Text += "\n";
+                    tbLog.Text += $"{i+1}) {emp.FirstName} {emp.Surname}, {emp.birthyear}, {emp.education}, {emp.position}, {emp.Wage}\n";
                 }
             }
             else
@@ -199,7 +197,7 @@ namespace Employee
             {
                 if (value < 14600)
                     errWageSmall = true;
-                else if (value > 200000) //kdyžtak změnit max plat
+                else if (value > 200000)
                     errWageBig = true;
                 else
                     wage = value;
