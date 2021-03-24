@@ -19,6 +19,9 @@ namespace Employee
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+     
+    //JAN BEZOUŠKA
+
     public partial class MainWindow : Window
     {
         List<EmployeeClass> employeesList = new List<EmployeeClass>();
@@ -67,36 +70,66 @@ namespace Employee
 
         public void NewEmployee()
         {
-            if (tbWage.Text != "" && cbBirthyear.SelectedIndex != -1)
+            tbLog.Text = string.Empty;
+
+            if (tbName.Text == "" | tbSurname.Text == "" |  tbWage.Text == "" | cbBirthyear.SelectedIndex == -1 | cbEducation.SelectedIndex == -1 | cbPosition.SelectedIndex == -1)
+            {
+                tbLog.Foreground = Brushes.Red;
+                tbLog.Text = "prosím vyplňte všecha pole";
+            }
+            else
             {
                 EmployeeClass newEmployee = new EmployeeClass(cbEducation.Text, cbPosition.Text, Convert.ToInt32(tbWage.Text), tbName.Text, tbSurname.Text, Convert.ToInt32(cbBirthyear.Text));
 
-                if (newEmployee.errLongName | newEmployee.errShortName | newEmployee.errShortName | newEmployee.errShortSurname | newEmployee.errWageBig | newEmployee.errWageSmall)
+                if (newEmployee.errLongName | newEmployee.errShortName | newEmployee.errLongSurname | newEmployee.errShortSurname | newEmployee.errWageBig | newEmployee.errWageSmall)
                 {
-                    tbLog.Text = "chyba i guess";
+                    tbLog.Foreground = Brushes.Red;
+
+                    if (newEmployee.errLongName)
+                        tbLog.Text = "Moc dlouhé jméno\n";
+                    else if (newEmployee.errShortName)
+                        tbLog.Text = "Moc krátké jméno\n";
+                    if (newEmployee.errLongSurname)
+                        tbLog.Text += "Moc dlouhé příjmení\n";
+                    else if (newEmployee.errShortSurname)
+                        tbLog.Text += "Moc krátké příjmení\n";
+                    if (newEmployee.errWageBig)
+                        tbLog.Text += "Moc velký plat\n";
+                    else if (newEmployee.errWageSmall)
+                        tbLog.Text += "Moc malý plat\n";
+
                 }
-                else if(employeesList.Any(x => (x.FirstName == newEmployee.FirstName) && (x.Surname == newEmployee.Surname) && (x.birthyear == newEmployee.birthyear)))
+                else if (employeesList.Any(x => (x.FirstName == newEmployee.FirstName) && (x.Surname == newEmployee.Surname) && (x.birthyear == newEmployee.birthyear)))
                 {
+                    tbLog.Foreground = Brushes.Red;
                     tbLog.Text = "už je v listu";
                 }
                 else
                 {
                     employeesList.Add(newEmployee);
+                    tbLog.Foreground = Brushes.Black;
                     tbLog.Text = "zaměstnanec přidán";
+
+                    tbName.Text = string.Empty;
+                    tbSurname.Text = string.Empty;
+                    tbWage.Text = string.Empty;
+                    cbBirthyear.SelectedIndex = -1;
+                    cbEducation.SelectedIndex = -1;
+                    cbPosition.SelectedIndex = -1;
                 }
             }
-            else
-                tbLog.Text = "chyba";
         }
 
         public void LogEmployees()
         {
+            tbLog.Text = string.Empty;
+
             if (employeesList.Count > 0)
             {
-                tbLog.Text = string.Empty;
                 for (int i = 0; i < employeesList.Count; i++)
                 {
-                    tbLog.Text += $"{employeesList[i].FirstName} {employeesList[i].Surname}, {employeesList[i].birthyear}, {employeesList[i].education}, {employeesList[i].position}, {employeesList[i].Wage}";
+                    EmployeeClass emp = employeesList[i];
+                    tbLog.Text += $"{i+1}) {emp.FirstName} {emp.Surname}, {emp.birthyear}, {emp.education}, {emp.position}, {emp.Wage}";
                     tbLog.Text += "\n";
                 }
             }
@@ -120,9 +153,7 @@ namespace Employee
                 else if (value.Length > 20)
                     errLongName = true;
                 else
-                {
                     firstName = value;
-                }
             }
         }
 
@@ -139,9 +170,7 @@ namespace Employee
                 else if (value.Length > 20)
                     errLongSurname = true;
                 else
-                {
                     surname = value;
-                }
             }
         }
 
@@ -173,9 +202,7 @@ namespace Employee
                 else if (value > 200000) //kdyžtak změnit max plat
                     errWageBig = true;
                 else
-                {
                     wage = value;
-                }
             }
         }
 
